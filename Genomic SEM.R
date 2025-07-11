@@ -36,8 +36,8 @@ SNPs <- sumstats(
   files = files,
   ref = ref ,
   trait.names = trait.names,
-  se.logit = rep(FALSE, 4),
-  linprob = rep(FALSE, 4),
+  se.logit = se.logit,
+  linprob = linprob,
   N = N
 )
 se.logit
