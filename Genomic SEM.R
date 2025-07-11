@@ -40,16 +40,7 @@ SNPs <- sumstats(
   linprob = linprob,
   N = N
 )
-se.logit
-linprob
-SNPs <- sumstats(
-  files = files,
-  ref = ref ,
-  trait.names = trait.names,
-  se.logit = rep(FALSE, 3),
-  linprob = rep(FALSE, 3),
-  N = N
-)
+
 # 6. Genomic SEM GWAS (userGWAS)
 model <- "
 F1 =~ Hearlingloss + Tinnitus+  Dizziness
