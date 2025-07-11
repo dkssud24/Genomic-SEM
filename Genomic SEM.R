@@ -25,7 +25,7 @@ ldsc_result <- ldsc(
   wld = wld,
   trait.names = trait.names
 )
-save(ldsc_result, file = "LDSC_250609.RData")
+save(ldsc_result, file = "Step.RData")
 model <- "F1 =~   Dizziness+ Hearlingloss + Tinnitus"
 result <- usermodel(covstruc = ldsc_result, model = model, std.lv = TRUE)
 print(result$results)
