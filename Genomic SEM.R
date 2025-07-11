@@ -4,6 +4,7 @@ library(dplyr)
 files <- c("GCST90436048.tsv.input.GenomicSEM","GCST90475909.tsv.input.GenomicSEM","GCST90436053.tsv.input.GenomicSEM")
 trait.names <- c("Dizziness","Hearlingloss", "Tinnitus" )
 N <- c(18235, 399422, 2057)
+trait_count <- 3
 sample.prev <- c(0.01, 0.56, 0.001271)
 population.prev <- sample.prev
 # 2. munging (LDSC용 summary statistics 생성)
@@ -30,8 +31,8 @@ result <- usermodel(covstruc = ldsc_result, model = model, std.lv = TRUE)
 print(result$results)
 print(result$modelfit)
 ref <- '/BiO/hae/000006_ref_1000G/ref.freq.frq'
-se.logit <- rep(FALSE, 3)
-linprob <- rep(FALSE, 3)
+se.logit <- rep(FALSE, trait_count)
+linprob <- rep(FALSE, trait_count)
 SNPs <- sumstats(
   files = files,
   ref = ref ,
