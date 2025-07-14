@@ -1,0 +1,676 @@
+나의 말:
+(base) root@kbri:/BiO/hae/000029_GenomicSEM/central_MAF005# R
+
+R version 4.5.0 (2025-04-11) -- "How About a Twenty-Six"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(GenomicSEM)
+library(data.table)
+library(dplyr)
+There were 25 warnings (use warnings() to see them)
+data.table 1.17.6 using 12 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:data.table’:
+
+    between, first, last
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> files <- c("GCST90475908.tsv.input.MR_SPI","GCST90475837.tsv.input.MR_SPI","GCST005839.tsv.input.MR_SPI","GCST90475988.tsv.input.MR_SPI")
+> trait.names <- c("Dizziness","Vestibular_migraine","Major_depressive_disorder","Vertebrobasilar_insufficiency")
+> N <- c(208254,118081,389039,119992)
+> trait_count <- 4
+> sample.prev <- c(0.154154,0.07,0.28,0.08)
+> population.prev <- sample.prev
+> hm3 <- "/BiO/hae/000004_ldsc/ldsc/w_hm3.snplist"
+munge(files = files,
+      hm3 = hm3,
+      trait.names = trait.names,
+      N = N)
+# 3. LDSC 실행
+traits <- paste0(trait.names, ".sumstats.gz")
+ld <- "/BiO/hae/000004_ldsc/ldsc/eur_w_ld_chr/"
+wld <- ld
+ldsc_result <- ldsc(
+  traits = traits,
+  sample.prev = sample.prev,
+  population.prev = population.prev,
+  ld = ld,
+  wld = wld,
+  trait.names = trait.names
+)
+The munging of 4 summary statistics started at 2025-07-11 14:15:36.259913
+Reading in reference file
+Reading summary statistics for GCST90475908.tsv.input.MR_SPI GCST90475837.tsv.input.MR_SPI GCST005839.tsv.input.MR_SPI GCST90475988.tsv.input.MR_SPI. Please note that this step usually takes a few minutes due to the size of summary statistic files.
+All files loaded into R!
+Munging file: GCST90475908.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using provided N (208254) for file:GCST90475908.tsv.input.MR_SPI
+Merging file:GCST90475908.tsv.input.MR_SPI with the reference file:/BiO/hae/000004_ldsc/ldsc/w_hm3.snplist
+6065000 rows present in the full GCST90475908.tsv.input.MR_SPI summary statistics file.
+4994223 rows were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file as the rs-ids for these rows were not present in the reference file.
+4 row(s) were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+1 row(s) were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file due to the other allele (A2) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+0 rows were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file due to missing MAF information or MAFs below the designated threshold of0.01
+1070772SNPs are left in the summary statistics file GCST90475908.tsv.input.MR_SPI after QC.
+I am done munging file: GCST90475908.tsv.input.MR_SPI
+The file is saved as Dizziness.sumstats.gz in the current working directory.
+Munging file: GCST90475837.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using provided N (118081) for file:GCST90475837.tsv.input.MR_SPI
+Merging file:GCST90475837.tsv.input.MR_SPI with the reference file:/BiO/hae/000004_ldsc/ldsc/w_hm3.snplist
+6065001 rows present in the full GCST90475837.tsv.input.MR_SPI summary statistics file.
+4994239 rows were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file as the rs-ids for these rows were not present in the reference file.
+4 row(s) were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+1 row(s) were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file due to the other allele (A2) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+0 rows were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file due to missing MAF information or MAFs below the designated threshold of0.01
+1070757SNPs are left in the summary statistics file GCST90475837.tsv.input.MR_SPI after QC.
+I am done munging file: GCST90475837.tsv.input.MR_SPI
+The file is saved as Vestibular_migraine.sumstats.gz in the current working directory.
+Munging file: GCST005839.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using provided N (389039) for file:GCST005839.tsv.input.MR_SPI
+Merging file:GCST005839.tsv.input.MR_SPI with the reference file:/BiO/hae/000004_ldsc/ldsc/w_hm3.snplist
+4905119 rows present in the full GCST005839.tsv.input.MR_SPI summary statistics file.
+4147784 rows were removed from the GCST005839.tsv.input.MR_SPI summary statistics file as the rs-ids for these rows were not present in the reference file.
+3 row(s) were removed from the GCST005839.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+0 rows were removed from the GCST005839.tsv.input.MR_SPI summary statistics file due to missing MAF information or MAFs below the designated threshold of0.01
+757332SNPs are left in the summary statistics file GCST005839.tsv.input.MR_SPI after QC.
+I am done munging file: GCST005839.tsv.input.MR_SPI
+The file is saved as Major_depressive_disorder.sumstats.gz in the current working directory.
+Munging file: GCST90475988.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using provided N (119992) for file:GCST90475988.tsv.input.MR_SPI
+Merging file:GCST90475988.tsv.input.MR_SPI with the reference file:/BiO/hae/000004_ldsc/ldsc/w_hm3.snplist
+6064979 rows present in the full GCST90475988.tsv.input.MR_SPI summary statistics file.
+4994208 rows were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file as the rs-ids for these rows were not present in the reference file.
+4 row(s) were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+1 row(s) were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file due to the other allele (A2) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+0 rows were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file due to missing MAF information or MAFs below the designated threshold of0.01
+1070766SNPs are left in the summary statistics file GCST90475988.tsv.input.MR_SPI after QC.
+I am done munging file: GCST90475988.tsv.input.MR_SPI
+The file is saved as Vertebrobasilar_insufficiency.sumstats.gz in the current working directory.
+     
+Munging was completed at 2025-07-11 14:21:36.629669
+The munging of all files took 6 minutes and 0.369755983352661 seconds
+Please check the .log file(s) to ensure that all columns were interpreted correctly and no warnings were issued for any of the summary statistics files
+Multivariate ld-score regression of 4 traits (Dizziness.sumstats.gz Vestibular_migraine.sumstats.gz Major_depressive_disorder.sumstats.gz Vertebrobasilar_insufficiency.sumstats.gz) began at: 2025-07-11 14:21:36.631764
+Reading in LD scores
+Read in summary statistics [1/4] from: Dizziness.sumstats.gz                                                       
+Out of 1070772 SNPs, 1068221 remain after merging with LD-score files
+Removing 0 SNPs with Chi^2 > 208.254; 1068221 remain
+Read in summary statistics [2/4] from: Vestibular_migraine.sumstats.gz
+Out of 1070757 SNPs, 1068206 remain after merging with LD-score files
+Removing 0 SNPs with Chi^2 > 118.081; 1068206 remain
+Read in summary statistics [3/4] from: Major_depressive_disorder.sumstats.gz
+Out of 757332 SNPs, 754739 remain after merging with LD-score files
+Removing 0 SNPs with Chi^2 > 389.039; 754739 remain
+Read in summary statistics [4/4] from: Vertebrobasilar_insufficiency.sumstats.gz
+Out of 1070766 SNPs, 1068215 remain after merging with LD-score files
+Removing 0 SNPs with Chi^2 > 119.992; 1068215 remain
+Estimating heritability [1/10] for: Dizziness.sumstats.gz
+Please note that the results initially printed to the screen and log file reflect the NON-liability h2 and cov_g. However, a liability conversion is being used for trait Dizziness.sumstats.gz when creating the genetic covariance matrix used as input for Genomic SEM and liability scale results are printed at the end of the log file.
+Heritability Results for trait: Dizziness.sumstats.gz
+Mean Chi^2 across remaining SNPs: 1.3444
+Lambda GC: 1.3136
+Intercept: 1.1382 (0.009)
+Ratio: 0.4013 (0.0263)
+Total Observed Scale h2: 0.0476 (0.0038)
+h2 Z: 12.7
+Calculating genetic covariance [2/10] for traits: Dizziness.sumstats.gz and Vestibular_migraine.sumstats.gz
+1068352 SNPs remain after merging Dizziness.sumstats.gz and Vestibular_migraine.sumstats.gz summary statistics
+Results for genetic covariance between: Dizziness.sumstats.gz and Vestibular_migraine.sumstats.gz
+Mean Z*Z: 0.2364
+Cross trait Intercept: 0.1205 (0.0067)
+Total Observed Scale Genetic Covariance (g_cov): 0.0366 (0.0034)
+g_cov Z: 10.7
+g_cov P-value: 8.0562e-27
+Calculating genetic covariance [3/10] for traits: Dizziness.sumstats.gz and Major_depressive_disorder.sumstats.gz
+743356 SNPs remain after merging Dizziness.sumstats.gz and Major_depressive_disorder.sumstats.gz summary statistics
+Results for genetic covariance between: Dizziness.sumstats.gz and Major_depressive_disorder.sumstats.gz
+Mean Z*Z: 0.13
+Cross trait Intercept: 0.0012 (0.0087)
+Total Observed Scale Genetic Covariance (g_cov): 0.0211 (0.0024)
+g_cov Z: 8.87
+g_cov P-value: 7.2337e-19
+Calculating genetic covariance [4/10] for traits: Dizziness.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+1068344 SNPs remain after merging Dizziness.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz summary statistics
+Results for genetic covariance between: Dizziness.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+Mean Z*Z: 0.277
+Cross trait Intercept: 0.1791 (0.0064)
+Total Observed Scale Genetic Covariance (g_cov): 0.0303 (0.0032)
+g_cov Z: 9.37
+g_cov P-value: 7.0748e-21
+Estimating heritability [5/10] for: Vestibular_migraine.sumstats.gz
+Please note that the results initially printed to the screen and log file reflect the NON-liability h2 and cov_g. However, a liability conversion is being used for trait Vestibular_migraine.sumstats.gz when creating the genetic covariance matrix used as input for Genomic SEM and liability scale results are printed at the end of the log file.
+Heritability Results for trait: Vestibular_migraine.sumstats.gz
+Mean Chi^2 across remaining SNPs: 1.2952
+Lambda GC: 1.2666
+Intercept: 1.0797 (0.0087)
+Ratio: 0.27 (0.0296)
+Total Observed Scale h2: 0.0914 (0.0069)
+h2 Z: 13.3
+Calculating genetic covariance [6/10] for traits: Vestibular_migraine.sumstats.gz and Major_depressive_disorder.sumstats.gz
+743357 SNPs remain after merging Vestibular_migraine.sumstats.gz and Major_depressive_disorder.sumstats.gz summary statistics
+Results for genetic covariance between: Vestibular_migraine.sumstats.gz and Major_depressive_disorder.sumstats.gz
+Mean Z*Z: 0.0742
+Cross trait Intercept: -0.0053 (0.0078)
+Total Observed Scale Genetic Covariance (g_cov): 0.0176 (0.0032)
+g_cov Z: 5.52
+g_cov P-value: 3.3443e-08
+Calculating genetic covariance [7/10] for traits: Vestibular_migraine.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+1068375 SNPs remain after merging Vestibular_migraine.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz summary statistics
+Results for genetic covariance between: Vestibular_migraine.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+Mean Z*Z: 0.1267
+Cross trait Intercept: 0.0618 (0.0061)
+Total Observed Scale Genetic Covariance (g_cov): 0.0279 (0.0042)
+g_cov Z: 6.63
+g_cov P-value: 3.3411e-11
+Estimating heritability [8/10] for: Major_depressive_disorder.sumstats.gz
+Please note that the results initially printed to the screen and log file reflect the NON-liability h2 and cov_g. However, a liability conversion is being used for trait Major_depressive_disorder.sumstats.gz when creating the genetic covariance matrix used as input for Genomic SEM and liability scale results are printed at the end of the log file.
+Heritability Results for trait: Major_depressive_disorder.sumstats.gz
+Mean Chi^2 across remaining SNPs: 1.2753
+Lambda GC: 1.2461
+Intercept: 0.9903 (0.0115)
+Ratio: -0.0351 (0.0419)
+Total Observed Scale h2: 0.0347 (0.0025)
+h2 Z: 13.8
+Calculating genetic covariance [9/10] for traits: Major_depressive_disorder.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+743363 SNPs remain after merging Major_depressive_disorder.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz summary statistics
+Results for genetic covariance between: Major_depressive_disorder.sumstats.gz and Vertebrobasilar_insufficiency.sumstats.gz
+Mean Z*Z: 0.0651
+Cross trait Intercept: 0.0198 (0.0068)
+Total Observed Scale Genetic Covariance (g_cov): 0.01 (0.0025)
+g_cov Z: 4.02
+g_cov P-value: 5.9256e-05
+Estimating heritability [10/10] for: Vertebrobasilar_insufficiency.sumstats.gz
+Please note that the results initially printed to the screen and log file reflect the NON-liability h2 and cov_g. However, a liability conversion is being used for trait Vertebrobasilar_insufficiency.sumstats.gz when creating the genetic covariance matrix used as input for Genomic SEM and liability scale results are printed at the end of the log file.
+Heritability Results for trait: Vertebrobasilar_insufficiency.sumstats.gz
+Mean Chi^2 across remaining SNPs: 1.232
+Lambda GC: 1.2171
+Intercept: 1.0864 (0.0086)
+Ratio: 0.3725 (0.0373)
+Total Observed Scale h2: 0.0594 (0.0056)
+h2 Z: 10.5
+Liability Scale Results
+Liability scale results for: Dizziness
+Total Liability Scale h2: 0.1102 (0.0087)
+Total Liability Scale Genetic Covariance between Dizziness and Vestibular_migraine: 0.1059 (0.0099)
+Total Liability Scale Genetic Covariance between Dizziness and Major_depressive_disorder: 0.0428 (0.0048)
+Total Liability Scale Genetic Covariance between Dizziness and Vertebrobasilar_insufficiency: 0.0841 (0.009)
+Liability scale results for: Vestibular_migraine
+Total Liability Scale h2: 0.3302 (0.0248)
+Total Liability Scale Genetic Covariance between Vestibular_migraine and Major_depressive_disorder: 0.0447 (0.0081)
+Total Liability Scale Genetic Covariance between Vestibular_migraine and Vertebrobasilar_insufficiency: 0.0966 (0.0146)
+Liability scale results for: Major_depressive_disorder
+Total Liability Scale h2: 0.0617 (0.0045)
+Total Liability Scale Genetic Covariance between Major_depressive_disorder and Vertebrobasilar_insufficiency: 0.0243 (0.0061)
+Liability scale results for: Vertebrobasilar_insufficiency
+Total Liability Scale h2: 0.1977 (0.0188)
+Genetic Correlation Results
+Genetic Correlation between Dizziness and Vestibular_migraine: 0.555 (0.0518)
+Genetic Correlation between Dizziness and Major_depressive_disorder: 0.5193 (0.0585)
+Genetic Correlation between Dizziness and Vertebrobasilar_insufficiency: 0.5697 (0.0608)
+Genetic Correlation between Vestibular_migraine and Major_depressive_disorder: 0.313 (0.0567)
+Genetic Correlation between Vestibular_migraine and Vertebrobasilar_insufficiency: 0.3782 (0.057)
+Genetic Correlation between Major_depressive_disorder and Vertebrobasilar_insufficiency: 0.2205 (0.0549)
+LDSC finished running at 2025-07-11 14:21:58.330524
+Running LDSC for all files took 0 minutes and 21 seconds
+> ldsc_result
+$V
+               [,1]          [,2]          [,3]          [,4]          [,5]
+ [1,]  7.546047e-05  3.547390e-05 -1.809218e-06  3.563599e-05  1.992869e-05
+ [2,]  3.547390e-05  9.750046e-05 -7.367557e-07  2.295392e-05  8.594420e-05
+ [3,] -1.809218e-06 -7.367557e-07  2.327676e-05 -1.803022e-06  8.748953e-06
+ [4,]  3.563599e-05  2.295392e-05 -1.803022e-06  8.046096e-05  4.602436e-05
+ [5,]  1.992869e-05  8.594420e-05  8.748953e-06  4.602436e-05  6.150516e-04
+ [6,]  6.360532e-06 -1.288022e-07  9.814891e-06  2.052692e-07  2.178776e-05
+ [7,]  8.330917e-06  5.100531e-05 -1.936391e-06  3.243222e-05  7.331800e-05
+ [8,] -1.971121e-06 -1.474103e-07  6.405845e-06 -2.897962e-06 -1.539978e-06
+ [9,] -2.071693e-06  4.754305e-06  8.242172e-06  1.346193e-07 -2.015685e-06
+[10,]  2.881507e-05  4.834622e-05 -7.156742e-06  7.051556e-05  1.009376e-04
+               [,6]          [,7]          [,8]          [,9]         [,10]
+ [1,]  6.360532e-06  8.330917e-06 -1.971121e-06 -2.071693e-06  2.881507e-05
+ [2,] -1.288022e-07  5.100531e-05 -1.474103e-07  4.754305e-06  4.834622e-05
+ [3,]  9.814891e-06 -1.936391e-06  6.405845e-06  8.242172e-06 -7.156742e-06
+ [4,]  2.052692e-07  3.243222e-05 -2.897962e-06  1.346193e-07  7.051556e-05
+ [5,]  2.178776e-05  7.331800e-05 -1.539978e-06 -2.015685e-06  1.009376e-04
+ [6,]  6.541708e-05 -5.938759e-06  1.566363e-06  8.819369e-06 -1.631731e-06
+ [7,] -5.938759e-06  2.123814e-04 -2.982569e-06  9.499576e-06  5.806989e-05
+ [8,]  1.566363e-06 -2.982569e-06  1.984375e-05  1.933114e-06 -1.181685e-05
+ [9,]  8.819369e-06  9.499576e-06  1.933114e-06  3.676200e-05 -3.947445e-06
+[10,] -1.631731e-06  5.806989e-05 -1.181685e-05 -3.947445e-06  3.536801e-04
+
+$S
+      Dizziness Vestibular_migraine Major_depressive_disorder
+[1,] 0.11017854          0.10586797                0.04280017
+[2,] 0.10586797          0.33022418                0.04466548
+[3,] 0.04280017          0.04466548                0.06166374
+[4,] 0.08407252          0.09663118                0.02434820
+     Vertebrobasilar_insufficiency
+[1,]                    0.08407252
+[2,]                    0.09663118
+[3,]                    0.02434820
+[4,]                    0.19765272
+
+$I
+            [,1]         [,2]         [,3]       [,4]
+[1,] 1.138204604  0.120498386  0.001191954 0.17906085
+[2,] 0.120498386  1.079691246 -0.005283867 0.06180379
+[3,] 0.001191954 -0.005283867  0.990326146 0.01978619
+[4,] 0.179060852  0.061803791  0.019786190 1.08639380
+
+$N
+       [,1]     [,2]     [,3]     [,4]   [,5]     [,6]     [,7]   [,8]     [,9]
+[1,] 208254 156814.7 284638.2 158078.5 118081 214331.8 119032.7 389039 216059.2
+      [,10]
+[1,] 119992
+
+$m
+[1] 1173569
+
+> save(ldsc_result, file = "Step.RData")
+> model <- "F1 =~   Dizziness + Vestibular_migraine + Major_depressive_disorder + Vertebrobasilar_insufficiency"
+> model
+[1] "F1 =~   Dizziness + Vestibular_migraine + Major_depressive_disorder + Vertebrobasilar_insufficiency"
+> result <- usermodel(covstruc = ldsc_result, model = model, std.lv = TRUE)
+print(result$results)
+print(result$modelfit)
+[1] "Running primary model"
+[1] "Calculating CFI"
+[1] "Calculating Standardized Results"
+[1] "Calculating SRMR"
+elapsed 
+  0.206 
+                            lhs op                           rhs Unstand_Est
+2                            F1 =~                     Dizziness 0.326117360
+5                            F1 =~           Vestibular_migraine 0.340519432
+3                            F1 =~     Major_depressive_disorder 0.123698253
+4                            F1 =~ Vertebrobasilar_insufficiency 0.252898389
+1                     Dizziness ~~                     Dizziness 0.003826012
+9           Vestibular_migraine ~~           Vestibular_migraine 0.214270689
+7     Major_depressive_disorder ~~     Major_depressive_disorder 0.046362476
+8 Vertebrobasilar_insufficiency ~~ Vertebrobasilar_insufficiency 0.133695134
+6                            F1 ~~                            F1 1.000000000
+           Unstand_SE STD_Genotype    STD_Genotype_SE    STD_All      p_value
+2    0.02249984452638   0.98248379 0.0677845932228902 0.98248380 1.318196e-47
+5  0.0284299349615498   0.59256700 0.0494733626796936 0.59256699 4.661927e-33
+3  0.0144676375108404   0.49813683 0.0582616400801247 0.49813683 1.230920e-17
+4  0.0224792249018494   0.56884596 0.0505626633966738 0.56884598 2.307632e-29
+1  0.0141007907476108   0.03472558  0.127981271858446 0.03472558 7.861348e-01
+9  0.0272742161093989   0.64886438 0.0825930311078047 0.64886436 3.960794e-15
+7 0.00507852770982153   0.75185972 0.0823584173480819 0.75185970 6.905996e-20
+8  0.0188054568597688   0.67641420 0.0951439325090431 0.67641425 1.165656e-12
+6                       1.00000000                    1.00000000           NA
+      chisq df   p_chisq      AIC       CFI       SRMR
+df 3.708042  2 0.1566062 19.70804 0.9959548 0.02775487
+> ref <- '/BiO/hae/000006_ref_1000G/ref.freq.frq'
+se.logit <- rep(FALSE, trait_count)
+linprob <- rep(FALSE, trait_count)
+SNPs <- sumstats(
+  files = files,
+  ref = ref ,
+  trait.names = trait.names,
+  se.logit = se.logit,
+  linprob = linprob,
+  N = N
+)
+The preparation of 4 summary statistics for use in Genomic SEM began at: 2025-07-11 14:23:51.373694
+Please note that the files should be in the same order that they were listed for the ldsc function
+Reading in reference file
+|--------------------------------------------------|
+|==================================================|
+Applying MAF filer of 0.01 to the reference file.
+All files loaded into R!
+Preparing summary statistics for file: GCST90475908.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Cannot find N column, try renaming it to N in the summary statistics file for:GCST90475908.tsv.input.MR_SPI
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using user provided N of 208254 for GCST90475908.tsv.input.MR_SPI . Please note that this should reflect the sum of effective sample sizes if the linprob argument is being used to back out logistic betas.
+3222 rows were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file due to entries that were duplicated for rsID. These are removed as they likely reflect multiallelic variants.
+Merging file: GCST90475908.tsv.input.MR_SPI with the reference file: /BiO/hae/000006_ref_1000G/ref.freq.frq
+6061778 rows present in the full GCST90475908.tsv.input.MR_SPI summary statistics file.
+230607 rows were removed from the GCST90475908.tsv.input.MR_SPI summary statistics file as the rsIDs for these SNPs were not present in the reference file.
+The effect column was determined NOT to be coded as an odds ratio (OR) for the GCST90475908.tsv.input.MR_SPI summary statistics file based on the median of the effect column being close to 0.
+125800rows were removed from theGCST90475908.tsv.input.MR_SPIsummary statistics file due to effect values estimated at exactly 0 as this causes problems for matrix inversion necessary for later Genomic SEM analyses.
+29 row(s) were removed from theGCST90475908.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+Performing transformation under the assumption that the effect column is either an odds ratio or logistic beta (please see output above to determine whether it was interpreted as an odds ratio) and the SE column is the SE of the odds ratio (i.e., NOT on the logistic scale) for:GCST90475908.tsv.input.MR_SPI
+5705342 SNPs are left in the summary statistics file GCST90475908.tsv.input.MR_SPI after QC and merging with the reference file.
+Preparing summary statistics for file: GCST90475837.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Cannot find N column, try renaming it to N in the summary statistics file for:GCST90475837.tsv.input.MR_SPI
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using user provided N of 118081 for GCST90475837.tsv.input.MR_SPI . Please note that this should reflect the sum of effective sample sizes if the linprob argument is being used to back out logistic betas.
+3220 rows were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file due to entries that were duplicated for rsID. These are removed as they likely reflect multiallelic variants.
+Merging file: GCST90475837.tsv.input.MR_SPI with the reference file: /BiO/hae/000006_ref_1000G/ref.freq.frq
+6061781 rows present in the full GCST90475837.tsv.input.MR_SPI summary statistics file.
+230606 rows were removed from the GCST90475837.tsv.input.MR_SPI summary statistics file as the rsIDs for these SNPs were not present in the reference file.
+The effect column was determined NOT to be coded as an odds ratio (OR) for the GCST90475837.tsv.input.MR_SPI summary statistics file based on the median of the effect column being close to 0.
+91280rows were removed from theGCST90475837.tsv.input.MR_SPIsummary statistics file due to effect values estimated at exactly 0 as this causes problems for matrix inversion necessary for later Genomic SEM analyses.
+28 row(s) were removed from theGCST90475837.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+Performing transformation under the assumption that the effect column is either an odds ratio or logistic beta (please see output above to determine whether it was interpreted as an odds ratio) and the SE column is the SE of the odds ratio (i.e., NOT on the logistic scale) for:GCST90475837.tsv.input.MR_SPI
+5739867 SNPs are left in the summary statistics file GCST90475837.tsv.input.MR_SPI after QC and merging with the reference file.
+Preparing summary statistics for file: GCST005839.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Cannot find N column, try renaming it to N in the summary statistics file for:GCST005839.tsv.input.MR_SPI
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using user provided N of 389039 for GCST005839.tsv.input.MR_SPI . Please note that this should reflect the sum of effective sample sizes if the linprob argument is being used to back out logistic betas.
+0 rows were removed from the GCST005839.tsv.input.MR_SPI summary statistics file due to entries that were duplicated for rsID. These are removed as they likely reflect multiallelic variants.
+Merging file: GCST005839.tsv.input.MR_SPI with the reference file: /BiO/hae/000006_ref_1000G/ref.freq.frq
+4905119 rows present in the full GCST005839.tsv.input.MR_SPI summary statistics file.
+813013 rows were removed from the GCST005839.tsv.input.MR_SPI summary statistics file as the rsIDs for these SNPs were not present in the reference file.
+The effect column was determined NOT to be coded as an odds ratio (OR) for the GCST005839.tsv.input.MR_SPI summary statistics file based on the median of the effect column being close to 0.
+14369rows were removed from theGCST005839.tsv.input.MR_SPIsummary statistics file due to effect values estimated at exactly 0 as this causes problems for matrix inversion necessary for later Genomic SEM analyses.
+756 row(s) were removed from theGCST005839.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+257 row(s) were removed from the GCST005839.tsv.input.MR_SPI summary statistics file due to the other allele (A2) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+Performing transformation under the assumption that the effect column is either an odds ratio or logistic beta (please see output above to determine whether it was interpreted as an odds ratio) and the SE column is the SE of the odds ratio (i.e., NOT on the logistic scale) for:GCST005839.tsv.input.MR_SPI
+4076724 SNPs are left in the summary statistics file GCST005839.tsv.input.MR_SPI after QC and merging with the reference file.
+Preparing summary statistics for file: GCST90475988.tsv.input.MR_SPI
+Interpreting the SNP column as the SNP column.
+Interpreting the A1 column as the A1 column.
+Interpreting the A2 column as the A2 column.
+Interpreting the BETA column as the effect column.
+Interpreting the P column as the P column.
+Cannot find N column, try renaming it to N in the summary statistics file for:GCST90475988.tsv.input.MR_SPI
+Interpreting the MAF column as the MAF column.
+Interpreting the SE column as the SE column.
+Using user provided N of 119992 for GCST90475988.tsv.input.MR_SPI . Please note that this should reflect the sum of effective sample sizes if the linprob argument is being used to back out logistic betas.
+3220 rows were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file due to entries that were duplicated for rsID. These are removed as they likely reflect multiallelic variants.
+Merging file: GCST90475988.tsv.input.MR_SPI with the reference file: /BiO/hae/000006_ref_1000G/ref.freq.frq
+6061759 rows present in the full GCST90475988.tsv.input.MR_SPI summary statistics file.
+230602 rows were removed from the GCST90475988.tsv.input.MR_SPI summary statistics file as the rsIDs for these SNPs were not present in the reference file.
+The effect column was determined NOT to be coded as an odds ratio (OR) for the GCST90475988.tsv.input.MR_SPI summary statistics file based on the median of the effect column being close to 0.
+100880rows were removed from theGCST90475988.tsv.input.MR_SPIsummary statistics file due to effect values estimated at exactly 0 as this causes problems for matrix inversion necessary for later Genomic SEM analyses.
+28 row(s) were removed from theGCST90475988.tsv.input.MR_SPI summary statistics file due to the effect allele (A1) column not matching A1 or A2 in the reference file.
+No INFO column, cannot filter on INFO, which may influence results
+Performing transformation under the assumption that the effect column is either an odds ratio or logistic beta (please see output above to determine whether it was interpreted as an odds ratio) and the SE column is the SE of the odds ratio (i.e., NOT on the logistic scale) for:GCST90475988.tsv.input.MR_SPI
+5730249 SNPs are left in the summary statistics file GCST90475988.tsv.input.MR_SPI after QC and merging with the reference file.
+After merging across all summary statistics using listwise deletion, performing QC, and merging with the reference file, there are 3729838 SNPs left in the final multivariate summary statistics file
+Sumstats finished running at 2025-07-11 14:27:09.941651
+Running sumstats for all files took 3 minutes and 18.5679574012756 seconds
+Please check the log file Dizziness_Vestibular_migraine_Major_depressive_disorder_Vertebrobasilar_insufficiency_sumstats.log to ensure that all columns were interpreted correctly and no warnings were issued for any of the summary statistics files.
+Warning message:
+In .sumstats_main(i, utilfuncs = NULL, filenames[i], trait.names[i],  :
+  The average value of estimate over standard error (i.e., Z) is > 5 for Vestibular_migraine. This suggests a column was misinterpreted or arguments were misspecified. Please post on the google group if you are unable to figure out the issue.
+> model <- "
+F1 =~ Dizziness + Vestibular_migraine + Major_depressive_disorder + Vertebrobasilar_insufficiency
+F1 ~ SNP
+"
+> GWAS_result <- userGWAS(
+  covstruc = ldsc_result,
+  SNPs = SNPs,
+  model = model,
+  sub = "F1~SNP",
+  parallel = TRUE,
+  cores = 5
+)
+[1] "Please note that an update was made to userGWAS on Sept 1 2023  so that the default behavior is to fix the measurement model using the fix_measurement argument."
+[1] "Starting GWAS Estimation"
+Error in .userGWAS_main(i, int, n_phenotypes, n, I_LD, V_LD, S_LD, std.lv,  : 
+  task 535113 failed - "Lapack routine dgesv: system is exactly singular: U[3,3] = 0"
+> ldsc_result$S
+      Dizziness Vestibular_migraine Major_depressive_disorder
+[1,] 0.11017854          0.10586797                0.04280017
+[2,] 0.10586797          0.33022418                0.04466548
+[3,] 0.04280017          0.04466548                0.06166374
+[4,] 0.08407252          0.09663118                0.02434820
+     Vertebrobasilar_insufficiency
+[1,]                    0.08407252
+[2,]                    0.09663118
+[3,]                    0.02434820
+[4,]                    0.19765272
+> det(ldsc_result$S)
+[1] 0.0001480969
+> eigen(ldsc_result$S)$values
+[1] 0.44615162 0.15215211 0.07044654 0.03096890
+> ls()
+ [1] "files"           "hm3"             "ld"              "ldsc_result"    
+ [5] "linprob"         "model"           "N"               "population.prev"
+ [9] "ref"             "result"          "sample.prev"     "se.logit"       
+[13] "SNPs"            "trait_count"     "trait.names"     "traits"         
+[17] "wld"            
+> model
+[1] "\nF1 =~ Dizziness + Vestibular_migraine + Major_depressive_disorder + Vertebrobasilar_insufficiency\nF1 ~ SNP\n"
+> lapply(SNPs, function(x) {
+  list(
+    nrow = nrow(x),
+    n_NA = sum(is.na(x)),
+    n_zero = sum(x$BETA == 0, na.rm=TRUE),
+    n_inf = sum(is.infinite(x$BETA))
+  )
+})
+Error in x$BETA : $ operator is invalid for atomic vectors
+> str(SNPs, max.level=2)
+'data.frame':	3729838 obs. of  14 variables:
+ $ CHR                               : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ SNP                               : chr  "rs141242758" "rs28544273" "rs3131970" "rs2073813" ...
+ $ A1                                : chr  "C" "A" "T" "A" ...
+ $ A2                                : chr  "T" "T" "C" "G" ...
+ $ MAF                               : num  0.0978 0.1114 0.12 0.1114 0.1176 ...
+ $ NCHROBS                           : int  808 808 808 808 808 808 808 808 808 808 ...
+ $ beta.Dizziness                    : num  -0.00712 -0.00767 -0.00761 -0.00712 -0.00749 ...
+ $ se.Dizziness                      : num  0.00717 0.00744 0.00741 0.00568 0.00578 ...
+ $ beta.Vestibular_migraine          : num  0.000772 -0.001652 -0.002265 -0.00275 -0.004651 ...
+ $ se.Vestibular_migraine            : num  0.00993 0.01144 0.0101 0.0087 0.0079 ...
+ $ beta.Major_depressive_disorder    : num  0.02409 0.00276 0.0011 0.00981 0.0113 ...
+ $ se.Major_depressive_disorder      : num  0.00918 0.01454 0.01442 0.00644 0.00718 ...
+ $ beta.Vertebrobasilar_insufficiency: num  0.00387 0.00515 0.00494 0.00249 0.00275 ...
+ $ se.Vertebrobasilar_insufficiency  : num  0.00912 0.00937 0.00976 0.00745 0.00795 ...
+> class(SNPs)
+length(SNPs)
+lapply(SNPs, class)
+[1] "data.frame"
+[1] 14
+$CHR
+[1] "integer"
+
+$SNP
+[1] "character"
+
+$A1
+[1] "character"
+
+$A2
+[1] "character"
+
+$MAF
+[1] "numeric"
+
+$NCHROBS
+[1] "integer"
+
+$beta.Dizziness
+[1] "numeric"
+
+$se.Dizziness
+[1] "numeric"
+
+$beta.Vestibular_migraine
+[1] "numeric"
+
+$se.Vestibular_migraine
+[1] "numeric"
+
+$beta.Major_depressive_disorder
+[1] "numeric"
+
+$se.Major_depressive_disorder
+[1] "numeric"
+
+$beta.Vertebrobasilar_insufficiency
+[1] "numeric"
+
+$se.Vertebrobasilar_insufficiency
+[1] "numeric"
+
+> # trait list (column 명에서 trait 명만 추출)
+traits <- c("Dizziness", "Vestibular_migraine", "Major_depressive_disorder", "Vertebrobasilar_insufficiency")
+
+for (tr in traits) {
+  beta_col <- paste0("beta.", tr)
+  se_col   <- paste0("se.", tr)
+  cat("=== ", tr, " ===\n")
+  cat("beta: NA:", sum(is.na(SNPs[[beta_col]])),
+      "0:", sum(SNPs[[beta_col]] == 0, na.rm=TRUE),
+      "Inf:", sum(is.infinite(SNPs[[beta_col]])), "\n")
+  cat("se:   NA:", sum(is.na(SNPs[[se_col]])),
+      "0:", sum(SNPs[[se_col]] == 0, na.rm=TRUE),
+      "Inf:", sum(is.infinite(SNPs[[se_col]])), "\n\n")
+}
+===  Dizziness  ===
+beta: NA: 0 0: 0 Inf: 0 
+se:   NA: 0 0: 0 Inf: 0 
+
+===  Vestibular_migraine  ===
+beta: NA: 0 0: 0 Inf: 0 
+se:   NA: 0 0: 2 Inf: 0 
+
+===  Major_depressive_disorder  ===
+beta: NA: 0 0: 0 Inf: 0 
+se:   NA: 0 0: 0 Inf: 0 
+
+===  Vertebrobasilar_insufficiency  ===
+beta: NA: 0 0: 0 Inf: 0 
+se:   NA: 0 0: 0 Inf: 0 
+
+> for (tr in traits) {
+  z <- SNPs[[paste0("beta.", tr)]] / SNPs[[paste0("se.", tr)]]
+  cat("=== ", tr, " ===\n")
+  cat("|Z| > 10:", sum(abs(z) > 10, na.rm=TRUE), "\n")
+  cat("|Z| > 20:", sum(abs(z) > 20, na.rm=TRUE), "\n")
+  cat("max |Z|:", max(abs(z), na.rm=TRUE), "\n\n")
+}
+===  Dizziness  ===
+|Z| > 10: 0 
+|Z| > 20: 0 
+max |Z|: 9.591771 
+
+===  Vestibular_migraine  ===
+|Z| > 10: 2 
+|Z| > 20: 2 
+max |Z|: Inf 
+
+===  Major_depressive_disorder  ===
+|Z| > 10: 0 
+|Z| > 20: 0 
+max |Z|: 7.059955 
+
+===  Vertebrobasilar_insufficiency  ===
+|Z| > 10: 0 
+|Z| > 20: 0 
+max |Z|: 7.152191 
+
+> summary(SNPs$NCHROBS)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    686     808     808     808     808     808 
+> min_se <- .Machine$double.eps 
+> min_se
+[1] 2.220446e-16
+> min_se <- min_se <- .Machine$double.xmin 
+> min_se <- .Machine$double.xmin 
+> min_se
+[1] 2.225074e-308
+> SNPs$se.Vestibular_migraine[SNPs$se.Vestibular_migraine == 0] <- min_se
+> traits <- c("Dizziness", "Vestibular_migraine", "Major_depressive_disorder", "Vertebrobasilar_insufficiency")
+for (tr in traits) {
+  se_col <- paste0("se.", tr)
+  SNPs[[se_col]][SNPs[[se_col]] == 0] <- .Machine$double.xmin
+}
+> GWAS_result <- userGWAS(
+  covstruc = ldsc_result,
+  SNPs = SNPs,
+  model = model,
+  sub = "F1~SNP",
+  parallel = TRUE,
+  cores = 20
+)
+[1] "Please note that an update was made to userGWAS on Sept 1 2023  so that the default behavior is to fix the measurement model using the fix_measurement argument."
+[1] "Starting GWAS Estimation"
+Error in serialize(data, node$con, xdr = FALSE) : 
+  error writing to connection
+Error in serialize(data, node$con, xdr = FALSE) : ignoring SIGPIPE signal
+> GWAS_result <- userGWAS(
+  covstruc = ldsc_result,
+  SNPs = SNPs,
+  model = model,
+  sub = "F1~SNP",
+  parallel = TRUE,
+  cores = 10
+)
+[1] "Please note that an update was made to userGWAS on Sept 1 2023  so that the default behavior is to fix the measurement model using the fix_measurement argument."
+[1] "Starting GWAS Estimation"
+Error in .userGWAS_main(i, int, n_phenotypes, n, I_LD, V_LD, S_LD, std.lv,  : 
+  task 267557 failed - "Lapack routine dgesv: system is exactly singular: U[3,3] = 0"
+In addition: There were 20 warnings (use warnings() to see them)
+
+
+마지막 에러 도대체뭐야?
