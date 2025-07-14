@@ -1,0 +1,64 @@
+
+library(GenomicSEM)
+library(data.table)
+library(dplyr)
+files <- c("GCST90475837.tsv.input.MR_SPI",  # VestMigraine
+           "GCST005839.tsv.input.MR_SPI",    # Depression
+           "GCST90475988.tsv.input.MR_SPI",  # VBI
+           "GCST90475908.tsv.input.MR_SPI")  # Dizziness
+trait.names <- c("VestMigraine", "Depression", "VBI", "Dizziness")
+N <- c(118081, 389039, 119992, 208254)
+sample.prev <- c(0.0727, 0.2820, 0.0751, 0.1542)
+population.prev <- sample.prev
+# 2. munging (LDSC용 summary statistics 생성)
+hm3 <- "/BiO/hae/ldsc/w_hm3.snplist"
+munge(files = files,
+      hm3 = hm3,
+      trait.names = trait.names,
+      N = N)
+traits <- paste0(trait.names, ".sumstats.gz")
+ld <- "/BiO/hae/ldsc/eur_w_ld_chr/"
+wld <- ld
+ldsc_result <- ldsc(
+  traits = traits,
+  sample.prev = sample.prev,
+  population.prev = population.prev,
+  ld = ld,
+  wld = wld,
+  trait.names = trait.names
+)
+save(ldsc_result, file = "LDSC_250604.RData")
+# 4. 공통 요인 모델 추정
+model <- "F1 =~ VestMigraine + Depression + VBI + Dizziness"
+result <- usermodel(covstruc = ldsc_result, model = model, std.lv = TRUE)
+print(result$results)
+print(result$modelfit)
+ref <- "/BiO/hae/diz/FREQ1000G"
+se.logit <- rep(FALSE, 4)
+linprob <- rep(FALSE, 4)
+se.logit
+SNPs <- sumstats(
+  files = files,
+  ref = ref,
+  trait.names = trait.names,
+  se.logit = se.logit,
+  linprob = linprob,
+  N = N
+)
+model <- "
+F1 =~ VestMigraine + Depression + VBI + Dizziness
+F1 ~ SNP
+"
+GWAS_result <- userGWAS(
+  covstruc = ldsc_result,
+  SNPs = SNPs,
+  model = model,
+  sub = "F1~SNP",
+  parallel = TRUE,
+  cores = 70,
+  fix_measurement = TRUE
+)
+tmp <- data.frame(GWAS_result)
+fwrite(tmp,'tmp',quote=FALSE,row.names=FALSE,sep=',')
+
+
